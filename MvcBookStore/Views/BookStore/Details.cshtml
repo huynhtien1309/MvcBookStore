@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<h2> THÔNG TIN CHI TIẾT SÁCH </h2>
+<h3> Tên Sách: @Model.TenSach </h3>
+<style type="text/css">
+    #Datmua a {
+        clear: both;
+        background-color: red;
+        color: white;
+        width: 120px;
+        height: 35px;
+        display: block;
+        float: right;
+        text-align: center;
+        padding-top: 10px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+        #Datmua a:hover {
+            background-color: gray;
+            color: red;
+        }
+</style>
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<h3> THÔNG TIN CHI TIẾT SÁCH</h3>
+<div>
+    <div style="width:40% ; float:left; border-left:dotted 1px; border-color:azure">
+        <img src="~/images/@Model.AnhBia" width="100%" />
+    </div>
+    <div style="width:60% ; float:left; padding:10px">
+        <h4 style="font-weight:bold; color:red"> Tên Sách: @Model.TenSach </h4>
+        <p style="text-align:justify"><Span style="font-weight: bold"> Mô tả: </Span>@Model.MoTa </p>
+        <p style="font-weight: bold"> Giá bán: <span style="color:red" ; font-size:16pt"> @Model.GiaBan VNÐ </span></p>
+    </div>
+    <div>
+        <div id="Datmua">
+            <a href="@Url.Action("ThemGioHang", "GioHang", new { @iMasach = @Model.MaSach, @strURL = Request.Url.ToString() })" class="list-group-item">
+              Đặt Mua
+            </a>
+        </div>
+    </div>
+</div>

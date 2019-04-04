@@ -1,0 +1,89 @@
+﻿@using MvcBookStore.Models
+@model List<Giohang>
+@{
+    ViewBag.title = "ĐƠN ĐẶT HÀNG";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+} <h2 style="text-align:center"> THÔNG TIN HÀNG HÓA</h2>
+<Table align="center" border="1">
+    <tr style="text-align:center; font-weight:bold">
+        <td> Mã sách</td>
+        <td> Tên sách</td>
+        <td> Ảnh bìa </td>
+        <td> Số lượng </td>
+        <td> Đơn giá </td>
+        <td> Thành tiền </td>
+        <td width="50px">
+            </ td >
+            <td width= "50px" ></td >
+            <td width= "50px" ></td>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr style = "text-align:center; font-weight:bold">
+                <td> @item.IMasach </td >
+
+
+                <td> @item.sTensach </td>
+
+
+                <td><img src = "~/images/@item.sAnhbia" ></td>
+                @using (Html.BeginForm("capnhatGiohang", "Giohang", new { @iMasp = item.IMasach }))
+                {
+                    <td>
+                    @item.iSoluong
+                    </td>
+                    <td> @String.Format("{0:0,0}", item.dDonggia) </td>
+                    <td> @String.Format("{0:0,0}", item.dThanhtien) </td>
+                 }
+                </tr>
+            }
+    <tr style="font-weight: bold; text-align:right; color:red">
+        <td colspan="3"> Số lượng sách: @ViewBag.Tongsoluong</td>
+        <td colspan="3"> Tổng tiền: @String.Format("{0:0,0}", ViewBag.Tongtien) VND</td>
+    </tr>
+    <tr style="font-weight: bold; text-align:right; color:red">
+        <td colspan="6">
+        @Html.ActionLink("TRỞ VỀ GIỎ HÀNG", "Giohang", "GioHang")
+        </td>
+    </tr>
+</Table>
+
+<h2 style="text-align:center"> THÔNG TIN ĐẶT HÀNG</h2>
+@{
+    KhachHang kh = (KhachHang)Session["Taikhoan"];
+}
+<table align="center">
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <tr style="height:40px">
+            <td> Họ tên khách hàng:</td>
+            <td style="font-weight:bold"> @kh.HoTen </td>
+        </tr>
+        <tr style="height:40px">
+            <td> Địa chỉ:</td>
+            <td STYLE="font-weight:bold"> @kh.DiaChi </td>
+        </tr>
+        <tr style="height:40px">
+            <td> Điện thoại:</td>
+            <td style="font-weight:bold"> @kh.DienThoai</td>
+        </tr>
+        <tr style="height:40px">
+            <td> Ngày đặt:</td>
+            <td style="font-weight:bold"> @DateTime.Now.ToShortDateString() </td>
+        </tr>
+        <tr style="height:40px">
+            <td> Ngày giao hàng:</td>
+            <td style="font-weight:bold">
+                <Input type="date" name="Ngaygiao" />
+            </td>
+        </tr>
+        <tr style="height:40px">
+            <td></td>
+            <td>
+                <Input type="Submit" value="ĐỒNG Ý ĐẶT HÀNG" />
+            </td>
+        </tr>
+    }
+</table>
+
