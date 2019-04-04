@@ -24,8 +24,8 @@ namespace MvcBookStore.Controllers
         {
             dbQLBansachDataContext db = new dbQLBansachDataContext();
             //Gan cac gia tri nguoi dung nhap lieu cho cac bien
-            var tendn = collection["username"];
-            var matkhau = collection["password"];
+            var tendn = collection["username"].ToString() ;
+            var matkhau = collection["password"].ToString();
             if (String.IsNullOrEmpty(tendn))
             {
                 ViewData["Loi1"] = "Phải nhập tên đăng nhập";
