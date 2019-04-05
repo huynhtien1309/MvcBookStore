@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using PagedList.Mvc;
+using System.IO;
 
 namespace MvcBookStore.Controllers
 {
@@ -67,6 +68,54 @@ namespace MvcBookStore.Controllers
             ViewBag.MaNXB = new SelectList(db.NhaXuatBans.ToList().OrderBy(n => n.TenNXB), "MaNXB", "TenNXB");
             return View();
 
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult ThemmoiSach(Sach sach, HttpPostedFileBase fileupload)
+        {
+            ViewBag.MaCD = new SelectList(db.ChuDes.ToList().OrderBy(n => n.TenChuDe), "MaCD", "Tenchude");
+            ViewBag.MaNXB = new SelectList(db.NhaXuatBans.ToList().OrderBy(n => n.TenNXB), "MaNXB", "TenNXB");
+            if (fileupload == null)
+            {
+                ViewBag.Thongbao = "Vui lòng chọn ảnh bìa";
+        
+                return View();
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    //lưu ý thêm thư viện using System.IO
+                    var fileName = Path.GetFileName(fileupload.FileName);
+                    var path = Path.Combine(Server.MapPath("~/Content/images"), fileName);
+                    if (System.IO.File.Exists(path))
+                    {
+                        ViewBag.Thongbao = "Hình ảnh đã tồn tại!!!";
+        
+            }
+                    else
+                    {
+                        fileupload.SaveAs(path);
+                    }
+                    sach.AnhBia = fileName;
+                    db.Saches.InsertOnSubmit(sach);
+                    db.SubmitChanges();
+                }
+                return RedirectToAction("Sach");
+            }
+
+        }
+        public ActionResult Chitietsach(int id)
+        {
+            Sach sach = db.Saches.SingleOrDefault(n => n.MaSach == id);
+
+            ViewBag.MaSach = sach.MaSach;
+            if (sach == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            return View(sach);
         }
 
     }
