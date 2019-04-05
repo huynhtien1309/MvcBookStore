@@ -1,4 +1,5 @@
-﻿@using MvcBookStore.Models
+﻿
+@using MvcBookStore.Models
 @using PagedList.Mvc;
 @model PagedList.PagedList<Sach>
 @{
@@ -10,37 +11,47 @@
     {
         <div class="col-sm-4 col-lg-4 col-md-4">
             <div class="thumbnail">
-                <a href="@Url.Action("Details", "BookStore" , new {id=sach.MaSach})">
-                    <img alt="@sach.TenSach" src="~/images/@sach.AnhBia" width="200" />
-                    <div>
-                        <br/>
-                        <h4 style="text-align:center">
-                            @sach.TenSach
-                        </h4>
-                        <p></p>
+
+
+                <div class="templatemo_product_box">
+                    <a href="@Url.Action("Details", "BookStore" , new {id=sach.MaSach})">
+                        <h1>@sach.TenSach </h1>
+                        <img alt="@sach.TenSach" src="~/Content/images/@sach.AnhBia" hieght="60" width="100" />
+                        <div class="product_info">
+                            <h3>@sach.GiaBan</h3>
+                            <div class="buy_now_button"><a href="subpage.html">Buy Now</a></div>
+                            <div class="detail_button"><a href="subpage.html">Detail</a></div>
                         </div>
-                        <div class="rating">
-                        <p class="pull-right"> 15 reviews</p>
-                        <p>
-                            <span class="glyphicon glhyphicon-star"></span>
-                            <span class="glyphicon glhyphicon-star"></span>
-                            <span class="glyphicon glhyphicon-star"></span>
-                            <span class="glyphicon glhyphicon-star"></span>
-                            <span class="glyphicon glhyphicon-star"></span>
-                        </p>
+                        <div class="cleaner">&nbsp;</div>
+</div>
+                <div class="cleaner_with_width">&nbsp;</div>
+                <div class="templatemo_product_box">
+                    <h1>@sach.TenSach </h1>
+                    <img alt="@sach.TenSach" src="~/Content/images/@sach.AnhBia" hieght="55" width="100" />
+                    <div class="product_info">
+                        <h3>@sach.GiaBan</h3>
+                        <div class="buy_now_button"><a href="subpage.html">Buy Now</a></div>
+                        <div class="detail_button"><a href="subpage.html">Detail</a></div>
                     </div>
+                    <div class="cleaner">&nbsp;</div>
+                </div>
+
+                <div class="rating">
+                    <p class="pull-right"> 15 reviews</p>
+
+                </div>
             </div>
         </div>
 
     }
 </div>
 @* TAO LIEN KET CAC TRANG*@
-Trang @(Model.PageCount<Model.PageNumber?0:Model.PageNumber)/@Model.PageCount;
-<div class="MenuTrang">
-@Html.PagedListPager(Model,page=>Url.Action("Index",new { page=page}))
-</div>
-<style>
-    .MenuTrang li {
-        display:inline;
-    }
-</style>
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount;
+    <div class="MenuTrang">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+    </div>
+    <style>
+        .MenuTrang li {
+            display: inline;
+        }
+    </style>

@@ -105,6 +105,21 @@ namespace MvcBookStore.Controllers
             }
 
         }
+        [HttpGet]
+        public ActionResult Suasach(int id)
+        {
+            Sach sach = db.Saches.SingleOrDefault(n => n.MaSach == id);
+
+            if (sach == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            ViewBag.MaChuDe = new SelectList(db.ChuDes.ToList().OrderBy(n => n.TenChuDe), "MaChuDe", "TenChude", sach.MaChuDe);
+            ViewBag.MaNXB = new SelectList(db.NhaXuatBans.ToList().OrderBy(n => n.TenNXB), "MaNXB", "TenNXB", sach.MaNXB);
+
+            return View(sach);
+        }
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Suasach(Sach sach, HttpPostedFileBase fileupload)
@@ -144,21 +159,7 @@ namespace MvcBookStore.Controllers
                 return RedirectToAction("Sach");
             }
         }
-        [HttpGet]
-        public ActionResult Suasach(int id)
-        {
-            Sach sach = db.Saches.SingleOrDefault(n => n.MaSach == id);
-
-            if (sach == null)
-            {
-                Response.StatusCode = 404;
-                return null;
-            }
-            ViewBag.MaChuDe = new SelectList(db.ChuDes.ToList().OrderBy(n => n.TenChuDe), "MaChuDe", "TenChude", sach.MaChuDe);
-            ViewBag.MaNXB = new SelectList(db.NhaXuatBans.ToList().OrderBy(n => n.TenNXB), "MaNXB", "TenNXB", sach.MaNXB);
-
-            return View(sach);
-        }
+       
         public ActionResult Chitietsach(int id)
         {
             Sach sach = db.Saches.SingleOrDefault(n => n.MaSach == id);

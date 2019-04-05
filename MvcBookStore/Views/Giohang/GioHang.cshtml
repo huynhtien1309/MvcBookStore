@@ -20,7 +20,7 @@
          <tr style="text-align: center; font-weight: bold">
              <td> @item.IMasach </td>
              <td> @item.sTensach </td>
-             <td> <img src="~/images/@item.sAnhbia"></td>
+             <td> <img src="~/Content/images/@item.sAnhbia"></td>
              @using (Html.BeginForm("CapnhatGiohang", "Giohang", new { @iMaSp = item.IMasach }))
              {
                  <td><input type="number" min="1" name="txtSoluong" value="@item.iSoluong" style="background-color:yellow" /></td>
