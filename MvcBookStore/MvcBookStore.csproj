@@ -408,6 +408,8 @@
     <Content Include="Views\Admin\Sach.cshtml" />
     <Content Include="Views\Admin\ThemmoiSach.cshtml" />
     <Content Include="Views\Admin\Chitietsach.cshtml" />
+    <Content Include="Views\Admin\Xoasach.cshtml" />
+    <Content Include="Views\Admin\Suasach.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

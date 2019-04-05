@@ -105,6 +105,60 @@ namespace MvcBookStore.Controllers
             }
 
         }
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Suasach(Sach sach, HttpPostedFileBase fileupload)
+        {
+            ViewBag.MaChuDe = new SelectList(db.ChuDes.ToList().OrderBy(n => n.TenChuDe), "MaChuDe", "TenChuDe");
+            ViewBag.MaNXB = new SelectList(db.NhaXuatBans.ToList().OrderBy(n => n.TenNXB), "MaNXB", "TenNXB");
+
+            if (fileupload == null)
+            {
+                ViewBag.Thongbao = "Vui lòng chọn ảnh bìa";
+                return View();
+            }
+            //thêm vào CSDL
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    // lưu tên file , lưu ý bổ sung thư viện using system.IO
+                    var fileName = Path.GetFileName(fileupload.FileName);
+                    // lưu đường dẫn của file
+                    var path = Path.Combine(Server.MapPath("~/Content/images"), fileName);
+                    //kiểm tra hình ảnh tồn tại chưa
+                    if (System.IO.File.Exists(path))
+                    {
+                        ViewBag.Thongbao = "Hình ảnh đã tồn tại!";
+                    }
+                    else
+                    {
+                        //lưu hình ảnh vào đường dẫn
+                        fileupload.SaveAs(path);
+                    }
+                    sach.AnhBia = fileName;
+                    //lưu vào CSDL
+                    UpdateModel(sach);
+                    db.SubmitChanges();
+                }
+                return RedirectToAction("Sach");
+            }
+        }
+        [HttpGet]
+        public ActionResult Suasach(int id)
+        {
+            Sach sach = db.Saches.SingleOrDefault(n => n.MaSach == id);
+
+            if (sach == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            ViewBag.MaChuDe = new SelectList(db.ChuDes.ToList().OrderBy(n => n.TenChuDe), "MaChuDe", "TenChude", sach.MaChuDe);
+            ViewBag.MaNXB = new SelectList(db.NhaXuatBans.ToList().OrderBy(n => n.TenNXB), "MaNXB", "TenNXB", sach.MaNXB);
+
+            return View(sach);
+        }
         public ActionResult Chitietsach(int id)
         {
             Sach sach = db.Saches.SingleOrDefault(n => n.MaSach == id);
@@ -117,6 +171,33 @@ namespace MvcBookStore.Controllers
             }
             return View(sach);
         }
+        [HttpGet]
+        public ActionResult Xoasach(int id)
+        {
+            Sach sach = db.Saches.SingleOrDefault(n => n.MaSach == id);
+            ViewBag.Masach = sach.MaSach;
+            if (sach == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            return View(sach);
+        }
+        [HttpPost, ActionName("XoaSach")]
+        public ActionResult Xacnhanxoa(int id)
+        {
+            Sach sach = db.Saches.SingleOrDefault(n => n.MaSach == id);
+            ViewBag.Masach = sach.MaSach;
+            if (sach == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            db.Saches.DeleteOnSubmit(sach);
+            db.SubmitChanges();
+            return RedirectToAction("Sach");
+        }
+        
 
     }
 }
